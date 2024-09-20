@@ -47,7 +47,6 @@ export async function loginuser(req, res, next) {
     if (userModel != null) {
       if (bcryptjs.compareSync(req.body.password, userModel.password)) {
         const token = generateAccessToken(userModel.toJSON());
-
         return res.status(200).send({
           message: "Success",
           data: {
