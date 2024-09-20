@@ -19,7 +19,7 @@ export function authenticationToken(req, res, next) {
 export function generateAccessToken(userModel) {
   return jwt.sign(
     { userId: userModel.userId, email: userModel.email },
-    process.env.TOKEN_KEY || "RANDOM_KEY",
+    process.env.TOKEN_KEY,
     {
       expiresIn: "24h",
     }
