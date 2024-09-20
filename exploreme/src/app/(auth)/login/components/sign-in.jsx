@@ -1,14 +1,11 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { loginUser } from "../../../services/api_services.js";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie"; // Import js-cookie
+import { FcGoogle } from "react-icons/fc";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -34,27 +31,24 @@ const Login = () => {
 
   return (
     <div>
-      <form
-        className="flex justify-center min-h-full flex-col space-y-4 bg-purple-300 p-10 rounded-xl w-[500px]"
-        onSubmit={onSubmitHandler}
-      >
-        <div className="space-y-4">
+      <form className="flex justify-center min-h-full flex-col space-y-4 bg-slate-50 p-14 rounded-2xl w-[600px]">
+        <div className="space-y-6">
           <div className="flex flex-col space-y-2">
             <Label>Email</Label>
             <Input
               type="text"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.email)}
               value={email}
               placeholder="Enter your email"
               required
               className="rounded-xl h-12"
             />
           </div>
-          <div className="flex flex-col space-y-1">
+          <div className="flex flex-col space-y-2">
             <Label>Password</Label>
             <Input
               type="password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.password)}
               value={password}
               placeholder="Enter your password"
               required
@@ -62,21 +56,42 @@ const Login = () => {
             />
           </div>
         </div>
-        <div className="flex items-center justify-center gap-2">
-          <p className="text-black text-sm">Don't have an account?</p>
-          <p
-            onClick={() => router.push("/signup")}
-            className="text-purple-800 hover:text-black underline cursor-pointer"
-          >
-            Signup
+        <div className="flex items-center justify-around">
+          <p className="flex items-center gap-2 text-sm">
+            <Checkbox /> Remember me?
+          </p>
+          <p className="text-blue-800 text-sm hover:text-black underline cursor-pointer">
+            Forgot password?
           </p>
         </div>
-        <div>
+        <div className="py-3">
           <Button
-            className="bg-purple-800 p-5 rounded-xl w-full hover:scale-x-105 hover:text-gray-200 hover:bg-purple-900 transition-all duration-500"
+            className="bg-blue-500 p-5 text-base rounded-xl w-full hover:scale-x-105 hover:text-gray-200 hover:bg-blue-700 transition-all duration-500"
             type="submit"
           >
             Login
+          </Button>
+        </div>
+        <div className="flex items-center justify-center gap-2">
+          <p className="text-black text-sm">Don't have an account?</p>
+          <p
+            onClick={() => onSubmitHandler}
+            className="text-blue-800 hover:text-black underline cursor-pointer"
+          >
+            signup
+          </p>
+        </div>
+        <div className="flex items-center justify-center space-x-2">
+          <div className="w-1/3 h-px bg-gray-300"></div>
+          <span className="text-gray-400 font-medium">or</span>
+          <div className="w-1/3 h-px bg-gray-300"></div>
+        </div>
+        <div>
+          <Button
+            className="p-5 text-base rounded-xl w-full hover:scale-x-105 hover:text-gray-200 transition-all duration-500 flex items-center gap-3"
+            type="submit"
+          >
+            Login with Google <FcGoogle className="w-5 h-5" />
           </Button>
         </div>
       </form>

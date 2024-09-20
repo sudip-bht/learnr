@@ -8,12 +8,6 @@ from .controllers.quiz_controller import create_quiz,edit_quiz,delete_quiz,get_q
 from .controllers.video_controller import create_video,edit_video,delete_video
 from .controllers.rag_controller import ask_question,process_pdf
 from .controllers.audio_controller import create_audio,edit_audio,delete_audio,get_audios_by_video
-# route_bp = Blueprint('main', __name__)
-
-# # Route to upload a PDF and process it
-
-
-# # Route to ask questions based on the processed document
 
 from app import app
 @app.route('/',  methods=['GET'])
