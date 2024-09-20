@@ -7,7 +7,7 @@ from langchain.vectorstores import Chroma
 from langchain.chains import RetrievalQA
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 import os
-from .config import Config
+from ..config import Config
 
 # Set up Google API Key
 GOOGLE_API_KEY = Config.GOOGLE_API_KEY
