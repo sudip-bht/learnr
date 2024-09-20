@@ -8,28 +8,36 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname(); 
   return (
-    <div className="p-4 sticky top-0 shadow-sm bg-purple-600 border-b-2 z-20">
-      <div className='flex justify-around'>
+    <div className="p-4 sticky top-0 shadow-sm bg-slate-100 border-b-2 border-gray-300 z-20">
+      <div className='flex justify-between mx-24'>
         <div 
           className='flex items-center gap-3 cursor-pointer'
           onClick={()=>router.push("/")}
         >
           <Image 
             className='w-8 h-8 object-contain'
-            src="/edulogo.svg"
+            src="/learnlogo.svg"
             width={30}
             height={30}
           />
-          <h1 className='text-base text-white font-semibold tracking-wider'>ExploreMe</h1>
+          <h1 className='text-lg text-black font-semibold tracking-wider'>Learnr</h1>
         </div>
         <div>
-        {pathname !== "/login" && pathname !== "/signup" && (
-          <Button
-            className="bg-purple-950 p-5 rounded-xl hover:scale-x-105 hover:text-gray-200 hover:bg-purple-800 transition-all duration-500"
+        {pathname === "/" && (
+          <div className='flex gap-5 items-center'>
+                                  <Button
+            className="border-blue-500 bg-transparent text-black border-2 p-4 rounded-xl hover:scale-x-105 hover:text-gray-200 hover:bg-blue-800 transition-all duration-500"
             onClick={() => router.push("/login")}
           >
-            Get Started
+            Login
           </Button>
+                      <Button
+            className="bg-blue-500 p-4 rounded-xl hover:scale-x-105 hover:text-gray-200 hover:bg-blue-800 transition-all duration-500"
+            onClick={() => router.push("/signup")}
+          >
+            Create Account
+          </Button>
+          </div>
         )}
         </div>
       </div>

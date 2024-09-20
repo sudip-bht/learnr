@@ -18,7 +18,7 @@ const SignUp = () => {
 
   return (
     <div>
-<form className="flex justify-center min-h-full flex-col space-y-4 bg-purple-300 p-10 rounded-xl w-[500px]">
+<form className="flex justify-center min-h-full flex-col space-y-6 bg-slate-50 p-14 rounded-xl w-[600px]">
       <div className="space-y-4">
       <div className="flex flex-col space-y-2">
             <Label>Fullname</Label>
@@ -42,7 +42,7 @@ const SignUp = () => {
                 className="rounded-xl h-12"
               />
             </div>
-            <div className="flex flex-col space-y-1">
+            <div className="flex flex-col space-y-2">
               <Label>Password</Label>
               <Input
                 type="password"
@@ -53,7 +53,7 @@ const SignUp = () => {
                 className="rounded-xl h-12"
               />
             </div>
-            <div className="flex flex-col space-y-1">
+            <div className="flex flex-col space-y-2">
               <Label>Confirm Password</Label>
               <Input
                 type="password"
@@ -71,14 +71,14 @@ const SignUp = () => {
           </p>
           <p
               onClick={() => router.push("/login")}
-              className="text-purple-800 hover:text-black underline cursor-pointer"
+              className="text-blue-800 hover:text-black underline cursor-pointer"
             >
               login
             </p>
         </div>
         <div>
           <Button 
-            className="bg-purple-800 p-5 rounded-xl w-full hover:scale-x-105 hover:text-gray-200 hover:bg-purple-900 transition-all duration-500"
+            className="bg-blue-500 p-5 text-base rounded-xl w-full hover:scale-x-105 hover:text-gray-200 hover:bg-blue-700 transition-all duration-500"
             type="submit"
           >
             Signup

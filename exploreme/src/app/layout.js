@@ -15,10 +15,10 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "ExploreMe",
+  title: "Learnr",
   description: "student-led learning website created using next app",
   icons: {
-    icon: '/edulogo.svg',
+    icon: '/learnlogo.svg',
   },
 };
 
