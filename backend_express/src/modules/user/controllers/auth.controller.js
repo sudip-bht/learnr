@@ -1,4 +1,4 @@
-import { user } from "../model/user.model.js";
+import { User } from "../model/user.model.js";
 import bcryptjs from "bcryptjs";
 import { generateAccessToken } from "../../../middlewares/auth.middleware.js";
 export async function signupuser(req, res, next) {
@@ -9,7 +9,7 @@ export async function signupuser(req, res, next) {
       });
     }
 
-    let isUserExist = await user.findOne({ email: req.body.email });
+    let isUserExist = await User.findOne({ email: req.body.email });
 
     if (isUserExist) {
       return res.status(400).send({
@@ -20,7 +20,7 @@ export async function signupuser(req, res, next) {
     const salt = bcryptjs.genSaltSync(10);
     req.body.password = bcryptjs.hashSync(req.body.password, salt);
 
-    const userSchema = new user(req.body);
+    const userSchema = new User(req.body);
 
     userSchema
       .save()
@@ -42,7 +42,7 @@ export async function signupuser(req, res, next) {
 
 export async function loginuser(req, res, next) {
   try {
-    const userModel = await user.findOne({ email: req.body.email });
+    const userModel = await User.findOne({ email: req.body.email });
 
     if (userModel != null) {
       if (bcryptjs.compareSync(req.body.password, userModel.password)) {
