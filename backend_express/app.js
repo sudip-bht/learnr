@@ -10,7 +10,6 @@ import { dbConfig } from "./src/config/db_config.js";
 import { authenticationToken } from "./src/middlewares/auth.middleware.js";
 import { router } from "./routes.js";
 dotenv.config();
-
 const app = express();
 const allowedOrigins = "*";
 const options = {
