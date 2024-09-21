@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Checkbox } from "@/components/ui/checkbox"
+import { Checkbox } from "@/components/ui/checkbox";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +14,19 @@ const Login = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
+    try {
+      const response = await loginUser(email, password); // Call the API
+      const { token } = response.data;
+
+      Cookies.set("token", token, { expires: 1 });
+      router.push("/dashboard");
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
   };
 
   return (
@@ -44,10 +57,14 @@ const Login = () => {
           </div>
         </div>
         <div className="flex items-center justify-around">
-          <p className="flex items-center gap-2 text-sm"><Checkbox /> Remember me?</p>
-          <p className="text-blue-800 text-sm hover:text-black underline cursor-pointer">Forgot password?</p>
+          <p className="flex items-center gap-2 text-sm">
+            <Checkbox /> Remember me?
+          </p>
+          <p className="text-blue-800 text-sm hover:text-black underline cursor-pointer">
+            Forgot password?
+          </p>
         </div>
-        <div className="py-3"> 
+        <div className="py-3">
           <Button
             className="bg-blue-500 p-5 text-base rounded-xl w-full hover:scale-x-105 hover:text-gray-200 hover:bg-blue-700 transition-all duration-500"
             type="submit"
@@ -58,7 +75,7 @@ const Login = () => {
         <div className="flex items-center justify-center gap-2">
           <p className="text-black text-sm">Don't have an account?</p>
           <p
-            onClick={() => router.push("/signup")}
+            onClick={() => onSubmitHandler}
             className="text-blue-800 hover:text-black underline cursor-pointer"
           >
             signup
@@ -74,7 +91,7 @@ const Login = () => {
             className="p-5 text-base rounded-xl w-full hover:scale-x-105 hover:text-gray-200 transition-all duration-500 flex items-center gap-3"
             type="submit"
           >
-            Login with Google <FcGoogle className="w-5 h-5"/>
+            Login with Google <FcGoogle className="w-5 h-5" />
           </Button>
         </div>
       </form>

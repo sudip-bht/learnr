@@ -1,6 +1,6 @@
 import mongoose, { model } from "mongoose";
 
-export const user = mongoose.model(
+export const User = mongoose.model(
   "User",
   mongoose.Schema(
     {
@@ -24,9 +24,6 @@ export const user = mongoose.model(
     {
       toJSON: {
         transform: (doc, ret) => {
-          ret.userId = ret._id.toString();
-          delete ret._id;
-          delete ret.__v;
           delete ret.password;
         },
       },
