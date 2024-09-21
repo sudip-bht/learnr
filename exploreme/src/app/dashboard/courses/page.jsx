@@ -25,7 +25,7 @@ const Courses = () => {
 
   return (
     <div className="flex flex-col space-y-5">
-      <h1 className='text-lg font-semibold text-blue-600'>Courses</h1>
+      <h1 className="text-lg font-semibold text-blue-600">Courses</h1>
       <div className="flex items-center space-x-2 bg-gray-100 p-2 rounded-lg w-full">
         <Input
           type="text"
@@ -50,7 +50,7 @@ const Courses = () => {
           >
             <div className="w-[300px] h-[300px]">
               <Image
-                src={item.img}
+                src={item.image_url}
                 alt="courseimg"
                 className="object-cover w-full h-full rounded-2xl"
                 width={300}

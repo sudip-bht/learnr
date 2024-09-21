@@ -4,14 +4,12 @@ import os
 
 from .controllers.question_controller import get_answer, initialize_qa_chain, load_youtube_transcript
 from .controllers.quiz_controller import create_flashcards, generate_quiz_from_transcript
-
-from .controllers.user_controller import register_user,login_user
 from .controllers.courser_controller import create_course,edit_course,delete_course
-from .controllers.quiz_controller import create_quiz,edit_quiz,delete_quiz,get_quizzes_by_video
+from .controllers.quiz_controller import generate_quiz_from_transcript
 from .controllers.video_controller import get_youtube_playlist
 from .controllers.rag_controller import ask_question,process_pdf
 from .controllers.audio_controller import create_audio,edit_audio,delete_audio,get_audios_by_video
-
+from .controllers.image_controller import generate_image_url
 from app import app
 @app.route('/',  methods=['GET'])
 def index():
@@ -26,13 +24,7 @@ def upload_pdf():
     return process_pdf(request)
 
 
-@app.route('/user/register', methods=['POST'])
-def register():
-    return register_user(request)
 
-@app.route('/user/login',methods=['POST'])
-def login():
-    return  login_user(request)
 
 # Course routes
 @app.route('/courses', methods=['POST'])
@@ -47,22 +39,7 @@ def edit_course_route(course_id):
 def delete_course_route(course_id,request):
     return delete_course(course_id)
 
-# Quiz routes
-@app.route('/quiz', methods=['POST'])
-def create_quiz_route():
-    return create_quiz(request)
 
-@app.route('/quiz/<quiz_id>', methods=['PATCH'])
-def edit_quiz_route(quiz_id):
-    return edit_quiz(quiz_id, request)
-
-@app.route('/quiz/<quiz_id>', methods=['DELETE'])
-def delete_quiz_route(quiz_id):
-    return delete_quiz(quiz_id)
-
-@app.route('/quiz/video/<video_id>', methods=['GET'])
-def get_quizzes_by_video_route(video_id):
-    return get_quizzes_by_video(video_id)
 
 @app.route('/getPlaylist' ,methods=['POST'])
 def extractPlaylist():
@@ -111,6 +88,7 @@ def ask_question():
 def generate_quiz_with_flashcards():
     data = request.json
     video_url = data.get('video_url')
+    print(video_url)
     num_questions = data.get('num_questions', 5)
     days = data.get('days', [1, 3, 5])
 
@@ -127,3 +105,9 @@ def generate_quiz_with_flashcards():
     }
 
     return jsonify(response)
+
+@app.route('/generateimage/<title>',methods=['GET'])
+def generate_image(title):
+    prompt="generate image for course title"+title
+    return generate_image_url(prompt=prompt)
+
