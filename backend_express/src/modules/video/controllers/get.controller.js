@@ -17,14 +17,14 @@ export async function getVideos(req, res, next) {
 
 export async function getVideobyId(req, res) {
   try {
-    const courseId = req.params.id;
-    const course = await Video.findById(courseId);
+    const videoId = req.params.videoId;
+    const video = await Video.findById(videoId);
 
-    if (!course) {
+    if (!video) {
       return res.status(404).json({ message: "Course not found." });
     }
 
-    return res.status(200).json(course);
+    return res.status(200).json(video);
   } catch (error) {
     return res
       .status(500)
