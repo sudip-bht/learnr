@@ -2,6 +2,9 @@
 from flask import  request, jsonify
 import os
 
+from .controllers.question_controller import get_answer, initialize_qa_chain, load_youtube_transcript
+from .controllers.quez_controller import create_flashcards, generate_quiz_from_transcript
+
 from .controllers.user_controller import register_user,login_user
 from .controllers.courser_controller import create_course,edit_course,delete_course
 from .controllers.quiz_controller import create_quiz,edit_quiz,delete_quiz,get_quizzes_by_video
@@ -88,3 +91,44 @@ def remove_audio(audio_id):
 @app.route('/video/<video_id>/audios', methods=['GET'])
 def get_audios(video_id):
     return get_audios_by_video(video_id)
+
+@app.route('/ask_question', methods=['POST'])
+def ask_question():
+    data = request.json
+    video_url = data.get('video_url')
+    question = data.get('question')
+
+    result = get_answer(video_url, question)
+    relevant_chunks = [{
+        "start_time": doc.metadata.get('start_time', None),
+        "end_time": doc.metadata.get('end_time', None),
+        "content": doc.page_content[:200]
+    } for doc in result["source_documents"]]
+
+    response = {
+        "answer": result["result"],
+        "relevant_chunks": relevant_chunks
+    }
+
+    return jsonify(response)
+
+@app.route('/generate_quiz_with_flashcards', methods=['POST'])
+def generate_quiz_with_flashcards():
+    data = request.json
+    video_url = data.get('video_url')
+    num_questions = data.get('num_questions', 5)
+    days = data.get('days', [1, 3, 5])
+
+    documents = load_youtube_transcript(video_url)
+    full_transcript = " ".join([doc.page_content for doc in documents])
+    qa_chain = initialize_qa_chain(video_url)
+
+    quiz = generate_quiz_from_transcript(full_transcript, qa_chain, num_questions)
+    flashcards = create_flashcards(quiz, days)
+
+    response = {
+        "quiz": quiz,
+        "flashcards": flashcards
+    }
+
+    return jsonify(response)
