@@ -17,7 +17,7 @@ const CourseDetail = ({ params }) => {
         setCourse(courseData);
       } catch (error) {
         setError(error.message);
-        router.push("/dashboard/courses"); // Redirect if an error occurs
+        router.push("/dashboard/courses");
       }
     };
 
@@ -34,7 +34,7 @@ const CourseDetail = ({ params }) => {
 
   return (
     <div className="flex flex-col items-center space-y-5">
-      <h1 className="text-2xl font-semibold">{course.title}</h1>
+      <h1 className="text-2xl font-semibold text-blue-500">{course.title}</h1>
       <div className="w-[400px] h-[400px]">
         <Image
           src={course.video_id[0].url} // Adjust this if you have an image URL
