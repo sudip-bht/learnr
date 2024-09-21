@@ -1,19 +1,49 @@
 import { Course } from "../models/course.model.js";
 import { User } from "../../user/model/user.model.js";
-
+import { Video } from "../../video/model/video.model.js";
+import { user } from "../../user/index.js";
 // Function to create a course
 export async function createCourse(req, res) {
   try {
-    const { created_by, ...courseData } = req.body;
+    const userid = req.user.userId;
+    const user = await User.findById(userid);
 
-    const user = await User.findById(created_by);
-    console.log(user);
-    console.log(created_by);
     if (!user) {
       return res.status(400).json({ message: "User does not exist." });
     }
+    const flaskResponse = await fetch(`http://127.0.0.1:5000/getPlaylist`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url: req.body.url }),
+    });
 
-    const course = new Course({ ...courseData, created_by });
+    if (!flaskResponse.ok) {
+      return res
+        .status(400)
+        .json({ message: "Failed to fetch videos from playlist." });
+    }
+
+    const flaskData = await flaskResponse.json();
+
+    const videoIds = [];
+    for (const videoData of flaskData.videos) {
+      const newVideo = new Video({
+        title: videoData.title,
+        url: videoData.url,
+        original_author: videoData.author,
+        length: videoData.length,
+      });
+      await newVideo.save();
+      videoIds.push(newVideo._id);
+    }
+
+    const course = new Course({
+      title: flaskData.title,
+      video_id: videoIds,
+      created_by: userid,
+    });
     await course.save();
     return res
       .status(201)

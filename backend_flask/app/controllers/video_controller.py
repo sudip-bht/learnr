@@ -1,38 +1,41 @@
 from flask import request, jsonify
 from bson import ObjectId
+from pytube import Playlist
 from app.models.video import VideoModel
 
-# Function to create a video
-def create_video(request):
-    data = request.get_json()
 
-    result = VideoModel.create_video(data)
-    if isinstance(result, tuple):  # Check for validation errors
-        return jsonify(result), 400
 
-    return jsonify(result), 201
+def get_youtube_playlist(playlist_url):
+    try:
 
-# Function to edit a video by ID
-def edit_video(video_id,request):
-    data = request.get_json()
+        if not playlist_url:
+            return jsonify({"error": "Playlist URL is required."}), 400
 
-    # Find the video by ID
-    video = VideoModel.find_by_id(video_id)
-    if not video:
-        return jsonify({"message": "Video not found."}), 404
+        yt_play = Playlist(playlist_url)
 
-    # Update the video with the provided data
-    updated_data = {key: value for key, value in data.items() if key in ['title', 'url', 'description']}
+        playlist_title = yt_play.title
+        
+      
+        videos = []
+        for video in yt_play.videos:
+            videos.append({
+                "title": video.title,
+                "url": video.watch_url,
+                "author":video.author,
+                "length":video.length
+            })
 
-    # Update video in the database
-    VideoModel.update_video(video_id, updated_data)
-    return jsonify({"message": "Video updated successfully!"}), 200
+        # Return the playlist and video details as JSON
+        return jsonify({
+            "title": playlist_title,
+            "videos": videos
+        }), 200
 
-# Function to delete a video by ID
-def delete_video(video_id):
-    video = VideoModel.find_by_id(video_id)
-    if not video:
-        return jsonify({"message": "Video not found."}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
-    VideoModel.delete_video(video_id)
-    return jsonify({"message": "Video deleted successfully!"}), 200
+
+
+
+
+

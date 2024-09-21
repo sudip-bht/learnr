@@ -1,5 +1,5 @@
-import React from 'react'
-import Login from './components/sign-in'
+import React from "react";
+import Login from "./components/sign-in";
 
 const LoginPage = () => {
   return (
@@ -7,7 +7,7 @@ const LoginPage = () => {
       <h1 className='text-3xl font-semibold text-blue-600'>Login to Learnr</h1>
         <Login />
     </div>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

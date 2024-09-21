@@ -13,32 +13,66 @@ import {
 } from "@/components/ui/dialog";
 import DraggableCard from "@/components/DraggableCard";
 import { Textarea } from "@/components/ui/textarea";
+import { createCourse } from "@/app/services/api_services"; // Adjust the import path
 
 const CreateCourse = () => {
+  const [url, setURL] = useState("");
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const [videoFile, setVideoFile] = useState(null);
+  const [videos, setVideos] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file && file.type === "video/mp4") {
+      setVideoFile(file);
       console.log("MP4 file selected:", file);
-      // Handle the file upload here
     } else {
       console.error("Please select a valid MP4 file.");
+      setVideoFile(null);
     }
   };
+
+  const importVideos = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await createCourse(url);
+      setVideos(data.data.video_id); // Assuming the API returns a list of videos
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+  };
+
   return (
     <div className="flex flex-col space-y-5">
       <h1>Course</h1>
       <div className="flex items-center space-x-2 bg-gray-100 p-2 rounded-lg w-full">
         <Input
           type="text"
+          value={url}
+          onChange={(e) => setURL(e.target.value)}
           placeholder="import from playlist ..."
           className="flex-1 border border-gray-500 outline-none bg-transparent text-gray-700 placeholder-gray-500 shadow-md focus-visible:ring-0"
         />
-        <Button className="bg-blue-500 p-5 text-base rounded-xl hover:scale-x-105 hover:text-gray-200 hover:bg-blue-700 transition-all duration-500">
-          Import
+        <Button
+          onClick={importVideos} // Call the import function on click
+          className="bg-blue-500 p-5 text-base rounded-xl hover:scale-x-105 hover:text-gray-200 hover:bg-blue-700 transition-all duration-500"
+          disabled={loading} // Disable button when loading
+        >
+          {loading ? "Importing..." : "Import"}
         </Button>
       </div>
+      {error && <p className="text-red-500 text-center">{error}</p>}{" "}
+      {/* Display error */}
       <p className="flex justify-center">or</p>
       <div className="flex justify-center">
         <Dialog>
@@ -50,7 +84,7 @@ const CreateCourse = () => {
               <DialogTitle className="text-center">Upload Video</DialogTitle>
               <DialogDescription>
                 <div className="p-5">
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <div className="space-y-6">
                       <div className="flex flex-col space-y-2">
                         <Label>Title</Label>
@@ -66,7 +100,6 @@ const CreateCourse = () => {
                       <div className="flex flex-col space-y-2">
                         <Label>Description</Label>
                         <Textarea
-                          type="text"
                           onChange={(e) => setDesc(e.target.value)}
                           value={desc}
                           placeholder="Enter your description"
@@ -89,7 +122,7 @@ const CreateCourse = () => {
                         className="bg-blue-500 p-5 text-base rounded-xl w-full hover:scale-x-105 hover:text-gray-200 hover:bg-blue-700 transition-all duration-500"
                         type="submit"
                       >
-                        upload
+                        Upload
                       </Button>
                     </div>
                   </form>

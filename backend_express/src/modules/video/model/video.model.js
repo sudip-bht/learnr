@@ -14,6 +14,8 @@ const videoSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    original_author: { type: String, required: true, trim: true },
+    length: { type: Date, required: true },
   },
   {
     timestamps: true,

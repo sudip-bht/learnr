@@ -18,7 +18,6 @@ const SignUp = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    // Check if passwords match
     if (password !== confirmPassword) {
       toast.error("Passwords do not match", {
         position: "top-right",
@@ -53,9 +52,9 @@ const SignUp = () => {
 
   return (
     <div>
-<form className="flex justify-center min-h-full flex-col space-y-6 bg-slate-50 p-14 rounded-3xl shadow-lg w-[600px]">
-      <div className="space-y-4">
-      <div className="flex flex-col space-y-2">
+      <form className="flex justify-center min-h-full flex-col space-y-6 bg-slate-50 p-14 rounded-3xl shadow-lg w-[600px]">
+        <div className="space-y-4">
+          <div className="flex flex-col space-y-2">
             <Label>Fullname</Label>
             <Input
               type="text"
@@ -104,7 +103,7 @@ const SignUp = () => {
           <p className="text-black text-sm">Already have an account?</p>
           <p
             className="text-blue-800 hover:text-black underline cursor-pointer"
-            onClick={()=>router.push("/login")}
+            onClick={() => router.push("/login")}
           >
             login
           </p>
