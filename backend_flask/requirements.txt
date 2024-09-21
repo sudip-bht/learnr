@@ -9,3 +9,4 @@ Flask-PyMongo
 Flask-JWT-Extended
 bcrypt
 pytube
+openai

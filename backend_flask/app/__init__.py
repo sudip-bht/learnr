@@ -38,14 +38,23 @@
 
 from flask import Flask
 from flask_pymongo import PyMongo
-
+from openai import AzureOpenAI
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "db24c608640f5034b30b8e1e1eb5618ed0ffdbf5"
 app.config["MONGO_URI"] = "mongodb+srv://sudeepbhattarai1792:d0ICAoLMDsmsgP5K@hackademia.anr9l.mongodb.net/learner?retryWrites=true&w=majority&appName=Hackademia"
+from .config import Config
 
+# Set up Google API Key
+GOOGLE_API_KEY = Config.GOOGLE_API_KEY
 # Initialize MongoDB client
 mongodb_client = PyMongo(app)
 db = mongodb_client.db
+
+client = AzureOpenAI(
+    api_version="2024-05-01-preview",
+    azure_endpoint=Config.AZURE_OPENAI_ENDPOINT,
+    api_key=Config.AZURE_OPENAI_API_KEY,
+)
 
 # Check MongoDB connection
 try:
