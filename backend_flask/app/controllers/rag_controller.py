@@ -14,7 +14,7 @@ GOOGLE_API_KEY = Config.GOOGLE_API_KEY
 print(GOOGLE_API_KEY) # Use environment variable
 genai.configure(api_key=GOOGLE_API_KEY)
 
-model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GOOGLE_API_KEY)
+model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GOOGLE_API_KEY,temperature =0.2,convert_system_message_to_human=True)
 vector_index = None
 qa_chain = None
 
@@ -39,11 +39,11 @@ def process_pdf(request):
     texts = text_splitter.split_text(context)
 
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
-    vector_index = Chroma.from_texts(texts, embeddings).as_retriever(search_kwargs={"k": 5})
+    vector_index = Chroma.from_texts(texts, embeddings).as_retriever(search_kwargs={"k": 1})
 
     global qa_chain
     qa_chain = RetrievalQA.from_chain_type(
-        llm=model,
+        model,
         retriever=vector_index,
         return_source_documents=True
     )
