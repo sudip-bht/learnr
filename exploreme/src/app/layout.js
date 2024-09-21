@@ -31,8 +31,12 @@ export default function RootLayout({ children }) {
       >
         <Navbar />
         {children}
+<<<<<<< HEAD
+        {/* <Footer /> */}
+=======
         <Footer />
         <ToastContainer />
+>>>>>>> 8849a08f8406b2133c3f709081c823ebb12de8b4
       </body>
     </html>
   );
