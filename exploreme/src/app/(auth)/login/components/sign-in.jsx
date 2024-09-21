@@ -68,6 +68,7 @@ const Login = () => {
           <Button
             className="bg-blue-500 p-5 text-base rounded-xl w-full hover:scale-x-105 hover:text-gray-200 hover:bg-blue-700 transition-all duration-500"
             type="submit"
+            onClick={() => onSubmitHandler}
           >
             Login
           </Button>
@@ -75,8 +76,8 @@ const Login = () => {
         <div className="flex items-center justify-center gap-2">
           <p className="text-black text-sm">Don't have an account?</p>
           <p
-            onClick={() => onSubmitHandler}
             className="text-blue-800 hover:text-black underline cursor-pointer"
+            onClick={()=>router.push("/signup")}
           >
             signup
           </p>
