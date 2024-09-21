@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signUpUser } from "../../../services/api_services"; // Import the signup service
+import { signUpUser } from "@/app/services/api_services"; // Import the signup service
 import { toast } from "react-toastify"; // Import Toastify
 import "react-toastify/dist/ReactToastify.css";
 
@@ -27,6 +27,7 @@ const SignUp = () => {
     }
 
     try {
+      console.log(email);
       const response = await signUpUser(
         fullname,
         email,
@@ -42,7 +43,7 @@ const SignUp = () => {
     } catch (error) {
       console.log(error);
       const errorMessage = error.response?.message || "Signup failed";
-      console.log(errorMessage);
+
       toast.error(errorMessage, {
         position: "top-right",
         autoClose: 3000,
@@ -69,7 +70,7 @@ const SignUp = () => {
             <Label>Email</Label>
             <Input
               type="text"
-              onChange={(e) => setEmail(e.target.email)}
+              onChange={(e) => setEmail(e.target.value)}
               value={email}
               placeholder="Enter your email"
               required
@@ -112,7 +113,7 @@ const SignUp = () => {
           <Button
             className="bg-blue-500 p-5 text-base rounded-xl w-full hover:scale-x-105 hover:text-gray-200 hover:bg-blue-700 transition-all duration-500"
             type="submit"
-            onClick={() => onSubmitHandler}
+            onClick={onSubmitHandler}
           >
             Signup
           </Button>

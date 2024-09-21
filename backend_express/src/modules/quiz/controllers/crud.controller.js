@@ -3,17 +3,42 @@ import { Quiz } from "../models/quiz.model.js";
 // Function to create a quiz
 export const createQuiz = async (req, res) => {
   try {
-    const quizData = req.body;
-    const newQuiz = new Quiz(quizData);
-    const savedQuiz = await newQuiz.save();
+    const flaskResponse = await fetch(
+      `http://127.0.0.1:5000/generate_quiz_with_flashcards`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ video_url: req.body.url }),
+      }
+    );
+
+    if (!flaskResponse.ok) {
+      return res
+        .status(400)
+        .json({ message: "Failed to fetch videos from playlist." });
+    }
+
+    const flaskData = await flaskResponse.json();
+    const quizList = flaskData.quiz;
+    for (const quiz of quizList) {
+      const newQuiz = new Quiz({
+        starTime: quiz.start_time,
+        question: quiz.question,
+        options: quiz.options,
+        answer: quiz.correct_answer,
+      });
+      await newQuiz.save();
+    }
+
     return res
       .status(201)
-      .json({ message: "Quiz created successfully!", quiz: savedQuiz });
+      .json({ message: "Quiz created successfully!", quiz: flaskData });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
 };
-
 // Function to edit a quiz by ID
 export const editQuiz = async (req, res) => {
   try {
