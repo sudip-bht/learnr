@@ -3,5 +3,6 @@ import { getVideos, getVideobyId } from "../controllers/get.controller.js"; // A
 
 export const getvideoRoute = Router();
 
-getvideoRoute.get("/:id", getVideobyId);
+getvideoRoute.get("/:videoId", getVideobyId);
+
 getvideoRoute.get("/", getVideos);
