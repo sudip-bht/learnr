@@ -1,7 +1,6 @@
 "use client"
 import React from 'react'
 import Link from "next/link";
-import Image from 'next/image';
 import { useRouter, usePathname } from "next/navigation";
 import { BookCopy, LayoutDashboard, TvMinimalPlay } from 'lucide-react';
 
@@ -30,17 +29,7 @@ const Sidenav = () => {
       },
     ];
   return (
-    <div className="bg-slate-100 rounded-tl-2xl w-[280px] min-h-screen p-4 space-y-6">
-      <div
-        className="flex items-center space-x-2 cursor-pointer"
-        onClick={() => router.push("/dashboard")}
-      >
-        <Image src="/edulogo.svg" alt="logo" width={50} height={50} />
-        <h1 className="text-lg font-bold font-sans tracking-wider text-black">
-          ExploreMe
-        </h1>
-      </div>
-      <hr className="border-gray-300" />
+    <div className="bg-slate-200 top-16 fixed left-0 w-[280px] min-h-screen p-4 space-y-6">
       <div>
         {menuList.map((menu, index) => (
           <Link

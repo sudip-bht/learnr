@@ -31,7 +31,7 @@ const Login = () => {
 
   return (
     <div>
-      <form className="flex justify-center min-h-full flex-col space-y-4 bg-slate-50 p-14 rounded-2xl w-[600px]">
+      <form className="flex justify-center min-h-full flex-col space-y-4 bg-slate-50 p-14 rounded-3xl w-[600px] shadow-lg">
         <div className="space-y-6">
           <div className="flex flex-col space-y-2">
             <Label>Email</Label>
