@@ -3,7 +3,7 @@ from flask import  request, jsonify
 import os
 
 from .controllers.question_controller import get_answer, initialize_qa_chain, load_youtube_transcript
-from .controllers.quez_controller import create_flashcards, generate_quiz_from_transcript
+from .controllers.quiz_controller import create_flashcards, generate_quiz_from_transcript
 
 from .controllers.user_controller import register_user,login_user
 from .controllers.courser_controller import create_course,edit_course,delete_course
@@ -69,13 +69,7 @@ def extractPlaylist():
     data= request.get_json()
     return get_youtube_playlist(data['url'])
 
-@app.route('/video/<video_id>', methods=['PATCH'])
-def edit_video_route(video_id):
-    return edit_video(video_id, request)
 
-@app.route('/video/<video_id>', methods=['DELETE'])
-def delete_video_route(video_id):
-    return delete_video(video_id)
 
 @app.route('/audio', methods=['POST'])
 def add_audio():
