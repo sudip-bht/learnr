@@ -3,9 +3,9 @@ import { Video } from "../model/video.model.js"; // Adjust the path as needed
 // Function to create a video
 export async function createVideo(req, res, next) {
   try {
-    const { title, url } = req.body;
+    const { title, url, original_author, length } = req.body;
 
-    const videoData = new Video({ title, url });
+    const videoData = new Video({ title, url, original_author, length });
 
     const savedVideo = await videoData.save();
     return res.status(201).send({
@@ -24,11 +24,11 @@ export async function createVideo(req, res, next) {
 export async function updateVideo(req, res, next) {
   try {
     const videoId = req.params.id;
-    const { title, url, description } = req.body;
+    const { title, url, original_author, length } = req.body;
 
     const updatedVideo = await Video.findByIdAndUpdate(
       videoId,
-      { title, url },
+      { title, url, original_author },
       { new: true }
     );
     if (!updatedVideo) {

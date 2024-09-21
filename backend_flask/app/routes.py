@@ -5,7 +5,7 @@ import os
 from .controllers.user_controller import register_user,login_user
 from .controllers.courser_controller import create_course,edit_course,delete_course
 from .controllers.quiz_controller import create_quiz,edit_quiz,delete_quiz,get_quizzes_by_video
-from .controllers.video_controller import create_video,edit_video,delete_video
+from .controllers.video_controller import get_youtube_playlist
 from .controllers.rag_controller import ask_question,process_pdf
 from .controllers.audio_controller import create_audio,edit_audio,delete_audio,get_audios_by_video
 
@@ -61,9 +61,10 @@ def delete_quiz_route(quiz_id):
 def get_quizzes_by_video_route(video_id):
     return get_quizzes_by_video(video_id)
 
-@app.route('/video', methods=['POST'])
-def create_video_route():
-    return create_video(request)
+@app.route('/getPlaylist' ,methods=['POST'])
+def extractPlaylist():
+    data= request.get_json()
+    return get_youtube_playlist(data['url'])
 
 @app.route('/video/<video_id>', methods=['PATCH'])
 def edit_video_route(video_id):

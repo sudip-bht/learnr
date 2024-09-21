@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "react-toastify"; // Import Toastify
+import "react-toastify/dist/ReactToastify.css";
+import { loginUser } from "@/app/services/api_services";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,14 +19,14 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await loginUser(email, password); // Call the API
+      console.log(email);
+      const response = await loginUser(email, password);
       const { token } = response.data;
-
-      Cookies.set("token", token, { expires: 1 });
+      localStorage.setItem("authToken", token);
       router.push("/dashboard");
     } catch (error) {
       toast.error(error.message, {
-        position: "top-right",
+        position: "top-center",
         autoClose: 3000,
       });
     }
@@ -37,7 +40,7 @@ const Login = () => {
             <Label>Email</Label>
             <Input
               type="text"
-              onChange={(e) => setEmail(e.target.email)}
+              onChange={(e) => setEmail(e.target.value)}
               value={email}
               placeholder="Enter your email"
               required
@@ -48,7 +51,9 @@ const Login = () => {
             <Label>Password</Label>
             <Input
               type="password"
-              onChange={(e) => setPassword(e.target.password)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               value={password}
               placeholder="Enter your password"
               required
@@ -68,7 +73,7 @@ const Login = () => {
           <Button
             className="bg-blue-500 p-5 text-base rounded-xl w-full hover:scale-x-105 hover:text-gray-200 hover:bg-blue-700 transition-all duration-500"
             type="submit"
-            onClick={() => onSubmitHandler}
+            onClick={onSubmitHandler}
           >
             Login
           </Button>
@@ -77,7 +82,7 @@ const Login = () => {
           <p className="text-black text-sm">Don't have an account?</p>
           <p
             className="text-blue-800 hover:text-black underline cursor-pointer"
-            onClick={()=>router.push("/signup")}
+            onClick={() => router.push("/signup")}
           >
             signup
           </p>
