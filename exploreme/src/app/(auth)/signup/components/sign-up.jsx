@@ -53,15 +53,9 @@ const SignUp = () => {
 
   return (
     <div>
-<<<<<<< HEAD
-<form className="flex justify-center min-h-full flex-col space-y-6 bg-slate-50 p-14 rounded-3xl shadow-lg w-[600px]">
-      <div className="space-y-4">
-      <div className="flex flex-col space-y-2">
-=======
       <form className="flex justify-center min-h-full flex-col space-y-6 bg-slate-50 p-14 rounded-xl w-[600px]">
         <div className="space-y-4">
           <div className="flex flex-col space-y-2">
->>>>>>> 8849a08f8406b2133c3f709081c823ebb12de8b4
             <Label>Fullname</Label>
             <Input
               type="text"
