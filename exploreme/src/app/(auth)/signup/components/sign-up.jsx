@@ -18,7 +18,7 @@ const SignUp = () => {
 
   return (
     <div>
-<form className="flex justify-center min-h-full flex-col space-y-6 bg-slate-50 p-14 rounded-xl w-[600px]">
+<form className="flex justify-center min-h-full flex-col space-y-6 bg-slate-50 p-14 rounded-3xl shadow-lg w-[600px]">
       <div className="space-y-4">
       <div className="flex flex-col space-y-2">
             <Label>Fullname</Label>
