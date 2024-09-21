@@ -24,6 +24,12 @@ const DraggableCard = () => {
       length: "12:24",
       author: "Manis",
     },
+    {
+      id: 2,
+      header: 'Course 2',
+      length: "2:24",
+      author: "Shyam",
+    },
   ]);
 
   const sensors = useSensors(
