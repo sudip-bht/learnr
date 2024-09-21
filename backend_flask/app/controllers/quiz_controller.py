@@ -7,13 +7,14 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from ..config import Config
 
 
-def generate_quiz_from_transcript(transcript, qa_chain, num_questions=3):
+def generate_quiz_from_transcript(transcript, qa_chain, num_questions=1):
     template = """
     You are a quiz generator. I will give you some text. 
     Your task is to create a quiz question with 4 multiple choice options based on the text.
     The correct answer should be clear from the provided text.
     Text: {text}
     """
+    
     quiz_prompt = PromptTemplate(template=template, input_variables=["text"])
     GOOGLE_API_KEY= Config.GOOGLE_API_KEY
     questions_with_timestamps = []

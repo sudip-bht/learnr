@@ -24,7 +24,7 @@ export const createQuiz = async (req, res) => {
     const quizList = flaskData.quiz;
     for (const quiz of quizList) {
       const newQuiz = new Quiz({
-        starTime: quiz.start_time,
+        startTime: quiz.start_time,
         question: quiz.question,
         options: quiz.options,
         answer: quiz.correct_answer,

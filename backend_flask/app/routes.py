@@ -4,14 +4,12 @@ import os
 
 from .controllers.question_controller import get_answer, initialize_qa_chain, load_youtube_transcript
 from .controllers.quiz_controller import create_flashcards, generate_quiz_from_transcript
-
-from .controllers.user_controller import register_user,login_user
 from .controllers.courser_controller import create_course,edit_course,delete_course
 from .controllers.quiz_controller import generate_quiz_from_transcript
 from .controllers.video_controller import get_youtube_playlist
 from .controllers.rag_controller import ask_question,process_pdf
 from .controllers.audio_controller import create_audio,edit_audio,delete_audio,get_audios_by_video
-
+from .controllers.image_controller import generate_image_url
 from app import app
 @app.route('/',  methods=['GET'])
 def index():
@@ -26,13 +24,7 @@ def upload_pdf():
     return process_pdf(request)
 
 
-@app.route('/user/register', methods=['POST'])
-def register():
-    return register_user(request)
 
-@app.route('/user/login',methods=['POST'])
-def login():
-    return  login_user(request)
 
 # Course routes
 @app.route('/courses', methods=['POST'])
@@ -112,3 +104,9 @@ def generate_quiz_with_flashcards():
     }
 
     return jsonify(response)
+
+@app.route('/generateimage/<title>',methods=['GET'])
+def generate_image(title):
+    prompt="generate image for course title"+title
+    return generate_image_url(prompt=prompt)
+
