@@ -139,3 +139,30 @@ export const getCourseById = async (id) => {
     throw error;
   }
 };
+export const getVideoById = async (id) => {
+  try {
+    const authToken = localStorage.getItem("authToken");
+    console.log(authToken);
+    const response = await fetch(
+      `http://localhost:3000/hackademia/video/get/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.message || "Failed to fetch course");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

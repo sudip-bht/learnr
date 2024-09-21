@@ -40,7 +40,7 @@ const CreateCourse = () => {
     setError(null);
     try {
       const data = await createCourse(url);
-      setVideos(data.data.video_id); // Assuming the API returns a list of videos
+      setVideos(data.data.video_id); // Assuming the API returns a list of video IDs
     } catch (error) {
       setError(error.message);
     } finally {
@@ -50,6 +50,7 @@ const CreateCourse = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // Handle the video file upload logic here if needed
   };
 
   return (
@@ -133,7 +134,8 @@ const CreateCourse = () => {
         </Dialog>
       </div>
       <div>
-        <DraggableCard />
+        {/* Pass the video IDs to DraggableCard */}
+        <DraggableCard videoIds={videos} />
       </div>
     </div>
   );

@@ -1,42 +1,67 @@
-from flask import request, jsonify
-from app.models.quiz import QuizModel
+from langchain.chains import LLMChain
+from langchain.prompts import PromptTemplate
+import logging
+import re
+from langchain_google_genai import ChatGoogleGenerativeAI
 
-# Function to create a quiz
-def create_quiz(request):
-    data = request.get_json()
-    result = QuizModel.create_quiz(data)
+from ..config import Config
 
-    if isinstance(result, tuple):  # Check for validation errors
-        return jsonify(result), 400
 
-    return jsonify(result), 201
+def generate_quiz_from_transcript(transcript, qa_chain, num_questions=3):
+    template = """
+    You are a quiz generator. I will give you some text. 
+    Your task is to create a quiz question with 4 multiple choice options based on the text.
+    The correct answer should be clear from the provided text.
+    Text: {text}
+    """
+    quiz_prompt = PromptTemplate(template=template, input_variables=["text"])
+    GOOGLE_API_KEY= Config.GOOGLE_API_KEY
+    questions_with_timestamps = []
+    chunk_size = len(transcript) // num_questions
+    model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GOOGLE_API_KEY)
 
-# Function to edit a quiz by ID
-def edit_quiz(quiz_id,request):
-    data = request.get_json()
+    for i in range(num_questions):
+        text_chunk = transcript[i * chunk_size: (i + 1) * chunk_size]
+        llm_chain = LLMChain(llm=model, prompt=quiz_prompt)
+        question_and_options = llm_chain.run(text_chunk)
+        
+        try:
+            question, options_str = question_and_options.split("\n", 1)
+            options = re.findall(r'[a-d]\) (.+)', options_str)
+            if len(options) < 4:
+                continue
 
-    # Find the quiz by ID
-    quiz = QuizModel.find_by_id(quiz_id)
-    if not quiz:
-        return jsonify({"message": "Quiz not found."}), 404
+            result = qa_chain({"query": question})
+            relevant_chunk = result["source_documents"][0]
+            start_time = relevant_chunk.metadata.get('start_time', None)
+            end_time = relevant_chunk.metadata.get('end_time', None)
 
-    # Update the quiz with the provided data
-    QuizModel.update_quiz(quiz_id, data)
-    return jsonify({"message": "Quiz updated successfully!"}), 200
+            questions_with_timestamps.append({
+                "question": question.strip(),
+                "options": options[:4],
+                "correct_answer": options[4], 
+                "start_time": start_time,
+                "end_time": end_time
+            })
 
-# Function to delete a quiz by ID
-def delete_quiz(quiz_id):
-    quiz = QuizModel.find_by_id(quiz_id)
-    if not quiz:
-        return jsonify({"message": "Quiz not found."}), 404
+        except Exception as e:
+            logging.error(f"Error generating quiz: {e}")
+            continue
 
-    QuizModel.delete_quiz(quiz_id)
-    return jsonify({"message": "Quiz deleted successfully!"}), 200
+    return questions_with_timestamps
 
-# Function to get quizzes by video ID
-def get_quizzes_by_video(video_id):
-    quizzes = QuizModel.find_by_video_id(video_id)
-    if not quizzes:
-        return jsonify({"message": "No quizzes found for this video."}), 404
-
-    return jsonify({"quizzes": quizzes}), 200
+def create_flashcards(quiz_data, days=[1, 3, 5]):
+    flashcards = []
+    
+    for day in days:
+        index = day - 1
+        if index < len(quiz_data):
+            flashcard = {
+                "question": quiz_data[index]["question"],
+                "answer": quiz_data[index]["correct_answer"],
+                "start_time": quiz_data[index]["start_time"],
+                "end_time": quiz_data[index]["end_time"]
+            }
+            flashcards.append(flashcard)
+    
+    return flashcards
