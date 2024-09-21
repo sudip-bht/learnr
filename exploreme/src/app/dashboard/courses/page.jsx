@@ -25,7 +25,7 @@ const Courses = () => {
 
   return (
     <div className="flex flex-col space-y-5">
-      <h1>Courses</h1>
+      <h1 className='text-lg font-semibold text-blue-600'>Courses</h1>
       <div className="flex items-center space-x-2 bg-gray-100 p-2 rounded-lg w-full">
         <Input
           type="text"
