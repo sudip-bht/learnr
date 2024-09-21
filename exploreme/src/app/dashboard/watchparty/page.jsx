@@ -9,31 +9,31 @@ const Watchparty = () => {
       question: 'What is the capital of France?',
       options: ['Berlin', 'Madrid', 'Paris', 'Lisbon'],
       correctAnswer: 'Paris',
-      start_time: 60, // In seconds (1 minute)
+      start_time: 60, 
     },
     {
       question: 'What is 2 + 2?',
       options: ['3', '4', '5', '6'],
       correctAnswer: '4',
-      start_time: 45, // In seconds (45 seconds)
+      start_time: 45, 
     },
     {
       question: 'Which planet is known as the Red Planet?',
       options: ['Earth', 'Venus', 'Mars', 'Jupiter'],
       correctAnswer: 'Mars',
-      start_time: 90, // In seconds (1 minute 30 seconds)
+      start_time: 90, 
     },
     {
       question: 'Who wrote "Hamlet"?',
       options: ['Charles Dickens', 'J.K. Rowling', 'William Shakespeare', 'Leo Tolstoy'],
       correctAnswer: 'William Shakespeare',
-      start_time: 30, // In seconds (30 seconds)
+      start_time: 30, 
     },
     {
       question: 'Which is the largest ocean?',
       options: ['Atlantic Ocean', 'Indian Ocean', 'Arctic Ocean', 'Pacific Ocean'],
       correctAnswer: 'Pacific Ocean',
-      start_time: 15, // In seconds (15 seconds)
+      start_time: 15, 
     },
   ];
 
