@@ -53,15 +53,9 @@ const SignUp = () => {
 
   return (
     <div>
-<<<<<<< HEAD
 <form className="flex justify-center min-h-full flex-col space-y-6 bg-slate-50 p-14 rounded-3xl shadow-lg w-[600px]">
       <div className="space-y-4">
       <div className="flex flex-col space-y-2">
-=======
-      <form className="flex justify-center min-h-full flex-col space-y-6 bg-slate-50 p-14 rounded-xl w-[600px]">
-        <div className="space-y-4">
-          <div className="flex flex-col space-y-2">
->>>>>>> 8849a08f8406b2133c3f709081c823ebb12de8b4
             <Label>Fullname</Label>
             <Input
               type="text"
@@ -98,7 +92,7 @@ const SignUp = () => {
             <Label>Confirm Password</Label>
             <Input
               type="password"
-              onChange={(e) => setconfirmPassword(e.target.confirmPassword)}
+              onChange={(e) => setConfirmPassword(e.target.confirmPassword)}
               value={confirmPassword}
               placeholder="confirm your password"
               required
@@ -109,8 +103,8 @@ const SignUp = () => {
         <div className="flex items-center justify-center gap-2">
           <p className="text-black text-sm">Already have an account?</p>
           <p
-            onClick={() => onSubmitHandler}
             className="text-blue-800 hover:text-black underline cursor-pointer"
+            onClick={()=>router.push("/login")}
           >
             login
           </p>
@@ -119,6 +113,7 @@ const SignUp = () => {
           <Button
             className="bg-blue-500 p-5 text-base rounded-xl w-full hover:scale-x-105 hover:text-gray-200 hover:bg-blue-700 transition-all duration-500"
             type="submit"
+            onClick={() => onSubmitHandler}
           >
             Signup
           </Button>
