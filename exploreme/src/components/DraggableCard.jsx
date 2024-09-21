@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DndContext,
   closestCenter,
@@ -14,17 +14,34 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { SortableItem } from "./SortableItem";
+import { SortableItem } from "./SortableItem"; // Adjust this import based on your project structure
+import { getVideoById } from "@/app/services/api_services"; // Import your API service for fetching video details
 
-const DraggableCard = ({ params }) => {
+const DraggableCard = ({ videoIds }) => {
   const [items, setItems] = useState([]);
-
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const videoDetails = await Promise.all(
+          videoIds.map((id) => getVideoById(id)) // Fetch details for each video ID
+        );
+        setItems(videoDetails);
+      } catch (error) {
+        console.error("Error fetching video details:", error);
+      }
+    };
+
+    if (videoIds.length > 0) {
+      fetchVideos();
+    }
+  }, [videoIds]);
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -60,11 +77,11 @@ const DraggableCard = ({ params }) => {
         <div className="space-y-4">
           {items.map((item) => (
             <SortableItem
-              key={item.id}
-              id={item.id}
-              header={item.header}
-              length={item.length}
-              author={item.author}
+              key={item._id}
+              id={item._id}
+              header={item.title} // Assuming video object has a title
+              length={item.length} // Assuming video object has a length
+              author={item.original_author} // Assuming video object has an author
             />
           ))}
         </div>
