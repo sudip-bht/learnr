@@ -8,3 +8,4 @@ chromadb
 Flask-PyMongo
 Flask-JWT-Extended
 bcrypt
+pytube
