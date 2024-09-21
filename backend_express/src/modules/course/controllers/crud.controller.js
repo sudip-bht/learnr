@@ -54,35 +54,6 @@ export async function createCourse(req, res) {
 
       await newVideo.save();
       videoIds.push(newVideo._id);
-      // const quizResponse = await fetch(
-      //   `http://127.0.0.1:5000/generate_quiz_with_flashcards`,
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({ video_url: videoData.url }),
-      //   }
-      // );
-
-      // const quizdata = await quizResponse.json();
-      // console.log(quizdata);
-      // const quizList = quizdata.quiz;
-      // console.log(72);
-      // if (!quizResponse.ok) {
-      //   return res.status(400).json({ message: "Failed to Create Quiz" });
-      // }
-
-      // for (const quiz of quizList) {
-      //   const newQuiz = new Quiz({
-      //     video_id: newVideo._id,
-      //     startTime: quiz.start_time,
-      //     question: quiz.question,
-      //     options: quiz.options,
-      //     answer: quiz.correct_answer,
-      //   });
-      //   await newQuiz.save();
-      // }
     }
 
     const course = new Course({

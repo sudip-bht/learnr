@@ -1,8 +1,11 @@
 import { Quiz } from "../models/quiz.model.js";
-
+import { Video } from "../../video/model/video.model.js";
+import { video } from "../../video/index.js";
 // Function to create a quiz
 export const createQuiz = async (req, res) => {
   try {
+    const video_id = req.body.video_id;
+    const video_details = await Video.findById(video_id);
     const flaskResponse = await fetch(
       `http://127.0.0.1:5000/generate_quiz_with_flashcards`,
       {
@@ -10,7 +13,7 @@ export const createQuiz = async (req, res) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ video_url: req.body.url }),
+        body: JSON.stringify({ video_url: video_details.url }),
       }
     );
 
@@ -27,6 +30,7 @@ export const createQuiz = async (req, res) => {
         startTime: quiz.start_time,
         question: quiz.question,
         options: quiz.options,
+        video_id: video_id,
         answer: quiz.correct_answer,
       });
       await newQuiz.save();

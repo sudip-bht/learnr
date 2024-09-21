@@ -6,5 +6,5 @@ import {
 
 export const getQuizRouter = express.Router();
 
-getQuizRouter.get("/:quiz", getQuizzesByVideo);
+getQuizRouter.get("/:videoId", getQuizzesByVideo);
 getQuizRouter.get("/", getAllQuizzes);

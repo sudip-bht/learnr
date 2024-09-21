@@ -88,6 +88,7 @@ def ask_question():
 def generate_quiz_with_flashcards():
     data = request.json
     video_url = data.get('video_url')
+    print(video_url)
     num_questions = data.get('num_questions', 5)
     days = data.get('days', [1, 3, 5])
 
