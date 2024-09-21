@@ -42,7 +42,7 @@ const Navbar = () => {
             </Button>
             <Button
               className={`p-4 rounded-xl transition-all duration-500 ${
-                pathname === "/signup" 
+                pathname === "/signup" || pathname === "/" 
                   ? "bg-blue-800 text-gray-200" 
                   : "bg-transparent text-black border-2 border-blue-500 hover:scale-x-105 hover:bg-blue-800 hover:text-gray-200"
               }`}

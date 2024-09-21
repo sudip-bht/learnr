@@ -18,7 +18,7 @@ export function authenticationToken(req, res, next) {
 
 export function generateAccessToken(userModel) {
   return jwt.sign(
-    { userId: userModel.userId, email: userModel.email },
+    { userId: userModel._id, email: userModel.email },
     process.env.TOKEN_KEY,
     {
       expiresIn: "24h",

@@ -1,7 +1,7 @@
 export const loginUser = async (email, password) => {
   try {
     const response = await fetch(
-      "http://127.0.0.1:3000/hackademia/user/auth/login",
+      "http://localhost:3000/hackademia/user/auth/login",
       {
         method: "POST",
         headers: {
@@ -11,11 +11,14 @@ export const loginUser = async (email, password) => {
       }
     );
 
-    if (!response.ok) {
-      throw new Error("Failed to log in");
+    if (response.status != 200) {
+      const data = await response.json();
+
+      throw new Error(data.message || "Failed to log in");
     }
 
     const data = await response.json();
+    localStorage.setItem("authToken", data.data.token);
     return data;
   } catch (error) {
     console.error(error);
@@ -26,7 +29,7 @@ export const loginUser = async (email, password) => {
 export const signUpUser = async (name, email, password) => {
   try {
     const response = await fetch(
-      "http://127.0.0.1:3000/hackademia/user/auth/signup",
+      "http://localhost:3000/hackademia/user/auth/signup",
       {
         method: "POST",
         headers: {
@@ -37,10 +40,72 @@ export const signUpUser = async (name, email, password) => {
     );
 
     if (response.status != 200) {
-      throw new Error("Failed to sign up");
+      const data = await response.json();
+      throw new Error(data.message || "Failed to Signup");
     }
 
     const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getCourses = async () => {
+  try {
+    const authToken = localStorage.getItem("authToken");
+
+    if (!authToken) {
+      throw new Error("Unauthorized");
+    }
+    console.log(authToken);
+    const response = await fetch(
+      "http://localhost:3000/hackademia/course/get/",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
+
+    if (response.status != 200) {
+      const data = await response.json();
+      throw new Error(data.message || "Failed to get Courses");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const createCourse = async (url) => {
+  try {
+    const authToken = localStorage.getItem("authToken");
+    const response = await fetch(
+      "http://localhost:3000/hackademia/course/crud/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({ url }),
+      }
+    );
+
+    if (response.status !== 201) {
+      const data = await response.json();
+      throw new Error(data.message || "Failed to create course");
+    }
+
+    const data = await response.json();
+
     return data;
   } catch (error) {
     console.error(error);

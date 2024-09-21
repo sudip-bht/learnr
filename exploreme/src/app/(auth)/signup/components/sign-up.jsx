@@ -18,7 +18,6 @@ const SignUp = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    // Check if passwords match
     if (password !== confirmPassword) {
       toast.error("Passwords do not match", {
         position: "top-right",
@@ -53,7 +52,7 @@ const SignUp = () => {
 
   return (
     <div>
-      <form className="flex justify-center min-h-full flex-col space-y-6 bg-slate-50 p-14 rounded-xl w-[600px]">
+      <form className="flex justify-center min-h-full flex-col space-y-6 bg-slate-50 p-14 rounded-3xl shadow-lg w-[600px]">
         <div className="space-y-4">
           <div className="flex flex-col space-y-2">
             <Label>Fullname</Label>
@@ -92,7 +91,7 @@ const SignUp = () => {
             <Label>Confirm Password</Label>
             <Input
               type="password"
-              onChange={(e) => setconfirmPassword(e.target.confirmPassword)}
+              onChange={(e) => setConfirmPassword(e.target.confirmPassword)}
               value={confirmPassword}
               placeholder="confirm your password"
               required
@@ -103,8 +102,8 @@ const SignUp = () => {
         <div className="flex items-center justify-center gap-2">
           <p className="text-black text-sm">Already have an account?</p>
           <p
-            onClick={() => onSubmitHandler}
             className="text-blue-800 hover:text-black underline cursor-pointer"
+            onClick={() => router.push("/login")}
           >
             login
           </p>
@@ -113,6 +112,7 @@ const SignUp = () => {
           <Button
             className="bg-blue-500 p-5 text-base rounded-xl w-full hover:scale-x-105 hover:text-gray-200 hover:bg-blue-700 transition-all duration-500"
             type="submit"
+            onClick={() => onSubmitHandler}
           >
             Signup
           </Button>
