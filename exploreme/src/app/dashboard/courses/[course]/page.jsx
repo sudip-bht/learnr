@@ -22,9 +22,7 @@ const CreateCourse = () => {
 
   const handleCreateCourse = async () => {
     try {
-      console.log("dsfsd");
       const response = await createCourse(playlistUrl);
-      console.log("dsfsd");
       setSuccess("Course created successfully!");
       setShowDialog(false);
       setPlaylistUrl("");
