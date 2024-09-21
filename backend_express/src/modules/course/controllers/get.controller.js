@@ -1,7 +1,7 @@
 import { Course } from "../models/course.model.js";
 export async function getCourses(req, res) {
   try {
-    const courses = await Course.find().populate("ideas");
+    const courses = await Course.find().populate("video_id");
     return res.status(200).json(courses);
   } catch (error) {
     return res
@@ -14,7 +14,7 @@ export async function getCourses(req, res) {
 export async function getCourseById(req, res) {
   try {
     const courseId = req.params.id;
-    const course = await Course.findById(courseId).populate("ideas");
+    const course = await Course.findById(courseId).populate("video_id");
 
     if (!course) {
       return res.status(404).json({ message: "Course not found." });
